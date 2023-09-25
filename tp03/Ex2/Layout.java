@@ -105,6 +105,10 @@ public class Layout extends Frame implements ActionListener {
             }
         } else if (e.getSource() == btnSair) {
             System.exit(0);
+        } else if (e.getSource() == btnLimpar) {
+            txtNome.setText("");
+            txtIdade.setText("");
+            txtSexo.setText("");
         }
     }
 }
