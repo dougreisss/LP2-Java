@@ -3,63 +3,151 @@
 * @author Douglas Reis e Lucas Aquino
 */
 
+import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.util.ArrayList;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+public class FormCalculadora extends JFrame implements ActionListener {
 
-public class FormCalculadora extends Frame implements ActionListener {
+    private JTextField txtNumber;
+    private JButton[] numberButtons;
+    private JButton[] functionButtons;
+    private JButton addButton, subButton, multButton, divButton, eqButton, clrButton;
+    private JPanel panel1, panel2;
 
-    Frame f = new Frame("Calculadora - LP2");
-    TextField txtNumero;
-    Button btnNumero7, btnNumero8, btnNumero9, btnDivisao, btnNumero4,
-            btnNumero5, btnNumero6, btnNumeroMult, btnNumero1, btnNumero2,
-            btnNumero3, btnSubtracao, btnNumero0, btnPonto, btnResultado, btnSoma, btnLimpar;
+    private double firstNumber, secondNumber, result;
+
+    private char operator;
 
     public FormCalculadora() {
-        super();
+        setTitle("Calculadora");
+        setSize(200, 200);
 
-        f.setSize(500, 400);
+        txtNumber = new JTextField();
+        txtNumber.setPreferredSize(new Dimension(40, 40));
+        txtNumber.setEditable(false);
 
-        Color corCinzaClaro = new Color(220, 220, 220);
-        f.setBackground(corCinzaClaro);
+        numberButtons = new JButton[10];
 
-        Panel panel1 = new Panel();
-        panel1.setLayout(new GridLayout(1, 1, 10, 10));
-        f.addWindowListener(new FechaJanela());
+        for (int i = 0; i < 10; i++) {
+            numberButtons[i] = new JButton(String.valueOf(i));
+            numberButtons[i].addActionListener(this);
+        }
 
-        txtNumero = new TextField("0");
-        txtNumero.setSize(10, 10);
-        txtNumero.setBounds(10, 10, 10, 10);
-        panel1.add(txtNumero);
+        functionButtons = new JButton[6];
+        addButton = new JButton("+");
+        subButton = new JButton("-");
+        multButton = new JButton("*");
+        divButton = new JButton("/");
+        eqButton = new JButton("=");
+        clrButton = new JButton("C");
 
-        Panel panel2 = new Panel();
+        functionButtons[0] = addButton;
+        functionButtons[1] = subButton;
+        functionButtons[2] = multButton;
+        functionButtons[3] = divButton;
+        functionButtons[4] = eqButton;
+        functionButtons[5] = clrButton;
 
-        panel2.setLayout(new GridLayout(5, 4, 10, 10));
+        for (int i = 0; i < 6; i++) {
+            functionButtons[i].addActionListener(this);
+            functionButtons[i].setPreferredSize(new Dimension(20, 20));
+        }
 
-        btnNumero7 = new Button("7");
-        btnNumero7.setSize(10, 10);
-        btnNumero8 = new Button("8");
-        btnNumero8.setSize(10, 10);
-        btnNumero9 = new Button("9");
-        btnNumero9.setSize(10, 10);
+        panel1 = new JPanel();
+        panel1.setLayout(new GridLayout(1, 1));
+        panel1.add(txtNumber);
 
-        panel2.add(btnNumero7);
-        panel2.add(btnNumero8);
-        panel2.add(btnNumero9);
+        panel2 = new JPanel();
+        panel2.setLayout(new GridLayout(4, 4));
 
-        f.setLayout(new BorderLayout(10, 10));
-        f.add(panel1, BorderLayout.CENTER);
-        f.add(panel2, BorderLayout.SOUTH);
-        f.setVisible(true);
+        for (int i = 1; i < 10; i++) {
+            panel2.add(numberButtons[i]);
+        }
+
+        panel2.add(numberButtons[0]);
+
+        for (int i = 0; i < 6; i++) {
+            panel2.add(functionButtons[i]);
+        }
+
+        setLayout(new BorderLayout());
+        add(panel1, BorderLayout.CENTER);
+        add(panel2, BorderLayout.SOUTH);
+        setVisible(true);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
+
+        for (int i = 0; i < 10; i++) {
+            if (e.getSource() == numberButtons[i]) {
+                txtNumber.setText(txtNumber.getText() + i);
+            }
+        }
+
+        if (e.getSource() == addButton) {
+            firstNumber = Double.parseDouble(txtNumber.getText());
+            operator = '+';
+            txtNumber.setText("");
+        }
+
+        if (e.getSource() == subButton) {
+            firstNumber = Double.parseDouble(txtNumber.getText());
+            operator = '-';
+            txtNumber.setText("");
+        }
+
+        if (e.getSource() == multButton) {
+            firstNumber = Double.parseDouble(txtNumber.getText());
+            operator = '*';
+            txtNumber.setText("");
+        }
+
+        if (e.getSource() == divButton) {
+            firstNumber = Double.parseDouble(txtNumber.getText());
+            operator = '/';
+            txtNumber.setText("");
+        }
+
+        if (e.getSource() == eqButton) {
+
+            try {
+
+                secondNumber = Double.parseDouble(txtNumber.getText());
+
+                switch (operator) {
+                    case '+':
+                        result = firstNumber + secondNumber;
+                        break;
+                    case '-':
+                        result = firstNumber - secondNumber;
+                        break;
+                    case '*':
+                        result = firstNumber * secondNumber;
+                        break;
+                    case '/':
+                        if (secondNumber != 0) {
+                            result = firstNumber / secondNumber;
+                        } else {
+                            txtNumber.setText("Erro");
+                            return;
+                        }
+                        break;
+                }
+
+                txtNumber.setText(String.valueOf(result));
+
+            } catch (Exception ex) {
+                txtNumber.setText(ex.getMessage());
+            }
+
+        }
+
+        if (e.getSource() == clrButton) {
+            txtNumber.setText("");
+        }
     }
 
 }

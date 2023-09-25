@@ -6,7 +6,7 @@ import javax.swing.JOptionPane;
 public class Layout extends Frame implements ActionListener {
     Button btnOk, btnLimpar, btnMostrar, btnSair;
     ArrayList<Pessoa> pessoas = new ArrayList<>();
-    TextField txtNumero, txtNome, txtSexo, txtIdade;
+    TextField txtNome, txtSexo, txtIdade;
     Frame f = new Frame("TP02 - LP214");
 
     public Layout() {
@@ -19,20 +19,17 @@ public class Layout extends Frame implements ActionListener {
 
         // criando painel 1
         Panel panel1 = new Panel();
-        panel1.setLayout(new GridLayout(4, 2, 10, 10));
- 	f.addWindowListener(new FechaJanela());
-        txtNumero = new TextField("");
-	txtNumero.setEditable(false);
+        panel1.setLayout(new GridLayout(3, 2, 10, 10));
+        f.addWindowListener(new FechaJanela());
+
         txtNome = new TextField("");
         txtSexo = new TextField("");
         txtIdade = new TextField("");
-        panel1.add(new Label("Numero"));
-        panel1.add(txtNumero);
-        panel1.add(new Label("Nome"));
+        panel1.add(new Label("Nome:"));
         panel1.add(txtNome);
-        panel1.add(new Label("Sexo"));
+        panel1.add(new Label("Sexo:"));
         panel1.add(txtSexo);
-        panel1.add(new Label("Idade"));
+        panel1.add(new Label("Idade:"));
         panel1.add(txtIdade);
 
         // criando painel 2
@@ -71,7 +68,7 @@ public class Layout extends Frame implements ActionListener {
 
             if (nome.isEmpty() || sexo.isEmpty() || idadeStr.isEmpty()) {
                 // Exibir uma mensagem de erro informando que todos os campos são obrigatórios.
-                System.out.println("Todos os campos são obrigatórios.");
+                JOptionPane.showMessageDialog(this, "Todos os campos sao obrigatorios.");
             } else {
                 int idade = Integer.parseInt(idadeStr);
                 if (sexo.equals("M") || sexo.equals("F")) {
@@ -85,9 +82,9 @@ public class Layout extends Frame implements ActionListener {
                     txtNome.setText("");
                     txtSexo.setText("");
                     txtIdade.setText("");
-                    System.out.println("Dados transferidos para Pessoa.");
+                    JOptionPane.showMessageDialog(this, "Dados transferidos para Pessoa.");
                 } else {
-                    System.out.println("O campo 'Sexo' só deve aceitar 'M' ou 'F'.");
+                    JOptionPane.showMessageDialog(this, "O campo 'Sexo' só deve aceitar 'M' ou 'F'.");
                 }
             }
         } else if (e.getSource() == btnMostrar) {
@@ -100,13 +97,14 @@ public class Layout extends Frame implements ActionListener {
             }
 
             if (pessoas.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Não há pessoas na lista.");
+                JOptionPane.showMessageDialog(this, "Nao existe pessoas na lista.");
             } else {
-		 info.append("Valor de kp: ").append(pessoas.get(0).getKp());
-                JOptionPane.showMessageDialog(this, info.toString(), "Informações das Pessoas", JOptionPane.INFORMATION_MESSAGE);
+                info.append("Valor de kp: ").append(pessoas.get(0).getKp());
+                JOptionPane.showMessageDialog(this, info.toString(), "Informações das Pessoas",
+                        JOptionPane.INFORMATION_MESSAGE);
             }
+        } else if (e.getSource() == btnSair) {
+            System.exit(0);
         }
     }
 }
-
-
