@@ -1,19 +1,16 @@
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class Layout implements ActionListener {
 
     private JFrame jf = new JFrame();
 
-    private JLabel lblNomePesquisa, lblNome, lblSalario, lblCargo;
+    private JLabel lblNomePesquisa, lblNome, lblSalario, lblCargo, lblNomeF;
 
-    private JTextField txtPesquisarNome, txtNome, txtSalario, txtCargo;
+    private JTextField txtPesquisarNome, txtSalario, txtCargo;
 
     private JButton btnPesquisar, btnProximo, btnAnterior;
 
@@ -31,8 +28,8 @@ public class Layout implements ActionListener {
         lblNomePesquisa = new JLabel("Nome");
         txtPesquisarNome = new JTextField(20);
         btnPesquisar = new JButton("Pesquisar");
-        btnPesquisar.setHorizontalAlignment(btnPesquisar.CENTER);
-        btnPesquisar.setVerticalAlignment(btnPesquisar.CENTER);
+        btnPesquisar.setHorizontalAlignment(SwingConstants.CENTER);
+        btnPesquisar.setVerticalAlignment(SwingConstants.CENTER);
 
         p1.add(lblNomePesquisa);
         p1.add(txtPesquisarNome);
@@ -44,7 +41,7 @@ public class Layout implements ActionListener {
         p2.setLayout(new GridLayout(4, 2, 5, 5));
 
         lblNome = new JLabel("Nome:");
-        txtNome = new JTextField(20);
+        lblNomeF = new JLabel("");
 
         lblSalario = new JLabel("Salario:");
         txtSalario = new JTextField(20);
@@ -56,7 +53,7 @@ public class Layout implements ActionListener {
         btnProximo = new JButton("Proximo");
 
         p2.add(lblNome);
-        p2.add(txtNome);
+        p2.add(lblNomeF);
 
         p2.add(lblSalario);
         p2.add(txtSalario);
@@ -70,8 +67,8 @@ public class Layout implements ActionListener {
         btnAnterior.addActionListener(this);
         btnProximo.addActionListener(this);
 
-        jf.add(p1, "North");
-        jf.add(p2, "South");
+        jf.add(p1, BorderLayout.NORTH);
+        jf.add(p2, BorderLayout.SOUTH);
 
         jf.setVisible(true);
         jf.setSize(400, 250);
@@ -86,13 +83,30 @@ public class Layout implements ActionListener {
             funcionarios = listFunc.listarFuncionarios(txtPesquisarNome.getText());
 
             if (funcionarios.size() <= 0) {
-                JOptionPane.showMessageDialog(null, "Nenhum funcionario");
+                JOptionPane.showMessageDialog(null, "Nenhum funcionário");
                 return;
             }
 
-            txtNome.setText(funcionarios.get(0).getNome());
-            txtSalario.setText(Double.toString(funcionarios.get(0).getSalario()));
-            txtCargo.setText(funcionarios.get(0).getCargo());
+            contadorLayout = 0;
+            exibirFuncionario(contadorLayout);
+        } else if (e.getSource() == btnAnterior) {
+            if (contadorLayout > 0) {
+                contadorLayout--;
+                exibirFuncionario(contadorLayout);
+            }
+        } else if (e.getSource() == btnProximo) {
+            if (contadorLayout < funcionarios.size() - 1) {
+                contadorLayout++;
+                exibirFuncionario(contadorLayout);
+            }
         }
     }
+
+    private void exibirFuncionario(int index) {
+        Funcionario funcionario = funcionarios.get(index);
+        lblNomeF.setText(funcionario.getNome());
+        txtSalario.setText(Double.toString(funcionario.getSalario()));
+        txtCargo.setText(funcionario.getCargo());
+    }
+
 }

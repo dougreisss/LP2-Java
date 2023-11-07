@@ -1,12 +1,18 @@
 import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class Conexao {
 
     public Connection getConexao() {
 
         try {
-            String url = "jdbc:sqlserver://DESKTOP-LKHA5RN\\SQLEXPRESS;databaseName=aulaJava;integratedSecurity=true;Trusted_Connection=true";
-            Connection con;
+
+	String url =
+"jdbc:sqlserver://DESKTOP-QPSJVKL\\SQLEXPRESS:56709;databaseName=AulaJava;integratedSecurity=true";
+
+            	Connection con;
 
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
