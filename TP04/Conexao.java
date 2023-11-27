@@ -5,7 +5,7 @@ public class Conexao {
     public Connection getConexao() {
 
         try {
-            String url = "jdbc:sqlserver://DESKTOP-LKHA5RN\\SQLEXPRESS;databaseName=aulaJava;integratedSecurity=true;Trusted_Connection=true";
+            String url = "jdbc:sqlserver://DESKTOP-LKHA5RN\\SQLEXPRESS;databaseName=aulajava;integratedSecurity=true;Trusted_Connection=true";
             Connection con;
 
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
