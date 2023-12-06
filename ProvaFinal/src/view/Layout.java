@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class Layout extends JFrame implements ActionListener{
 
@@ -71,7 +72,7 @@ public class Layout extends JFrame implements ActionListener{
         p2.setLayout(new GridLayout(1,1,10,10));
         //criando botoes 
         btnApresentarDados = new JButton("Mostrar Dados");
-        btnIncluir = new JButton("Incluiur");
+        btnIncluir = new JButton("Incluir");
         btnLimpar = new JButton("Limpar");
         btnSair = new JButton("Sair");
 
@@ -124,12 +125,19 @@ public class Layout extends JFrame implements ActionListener{
         }else if (e.getSource() == btnSair ) {
             System.exit(0);
         }else if (e.getSource()== btnApresentarDados) {
-            JOptionPane showBox = new JOptionPane();
+        JOptionPane showBox = new JOptionPane();
 
-            Aluno aluno = gson.fromJson(aux, Aluno.class);
+            AlunoAcademiaService alunoAcademiaService = new AlunoAcademiaService();
+            ArrayList<Aluno> alunos = new ArrayList<Aluno>();
+            String msg = "";
 
-            String msg = "Nome: " + aluno.getNome() + " Idade: " + aluno.getIdade() + " Peso: " + aluno.getPeso()
-                    + " Altura: " + aluno.getAltura() + " Objetivo: " + aluno.getObjetivo();
+            for (Aluno aluno : alunos) {
+                String json = gson.toJson(aluno);
+
+                msg += "Nome: " + aluno.getNome() + " Idade: " + aluno.getIdade() + " Peso: " + aluno.getPeso()
+                        + " Altura: " + aluno.getAltura() + " Objetivo: " + aluno.getObjetivo() + " - " + json;
+
+            }
 
             showBox.showMessageDialog(lc, msg);
         }
